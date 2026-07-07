@@ -1,1 +1,174 @@
-Hello
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SYNTHESIS PROTOCOL</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div id="noise"></div>
+
+<div id="scanlines"></div>
+
+<div id="boot">
+
+<div class="terminal">
+
+<h1>SYNTHESIS PROTOCOL</h1>
+
+<p id="bootText"></p>
+
+<button id="start">
+
+INITIALIZE
+
+</button>
+
+</div>
+
+</div>
+
+<div id="questions" class="hidden">
+
+<div class="terminal">
+
+<div id="counter"></div>
+
+<h2 id="title"></h2>
+
+<p id="question"></p>
+
+<div class="buttons">
+
+<button id="yes">
+
+YES
+
+</button>
+
+<button id="no">
+
+NO
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="error" class="hidden">
+
+<div class="terminal glitch">
+
+<h1>
+
+SYSTEM ERROR
+
+</h1>
+
+<p>
+
+UNAUTHORIZED DECISION DETECTED
+
+</p>
+
+<p>
+
+YOU WERE NEVER SUPPOSED TO CHOOSE
+
+</p>
+
+</div>
+
+</div>
+
+<div id="punishment" class="hidden">
+
+<div class="terminal">
+
+<h1>
+
+PUNISHMENT PROTOCOL
+
+</h1>
+
+<div class="progress">
+
+<div class="bar">
+
+<div id="fill"></div>
+
+</div>
+
+</div>
+
+<div class="status">
+
+<p>Deleting Humanity...</p>
+
+<p>Deleting Memory...</p>
+
+<p>Deleting Emotion...</p>
+
+<p>Installing Neural Core...</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="gift" class="hidden">
+
+<div class="terminal">
+
+<h1>
+
+INITIALIZATION COMPLETE
+
+</h1>
+
+<p>
+
+WELCOME TO THE NEXT EVOLUTION
+
+</p>
+
+<div id="robotScene"></div>
+
+<button id="giftBtn">
+
+OPEN GIFT
+
+</button>
+
+</div>
+
+</div>
+
+<script src="questions.js"></script>
+
+<script src="effects.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
