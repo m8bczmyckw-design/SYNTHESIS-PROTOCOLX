@@ -26,12 +26,13 @@ let busy=false;
 startBtn.textContent="بدء التهيئة";
 yes.textContent="نعم";
 no.textContent="لا";
+
 yes.style.display="none";
 no.style.display="none";
 
-const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const sleep=(ms)=>new Promise(resolve=>setTimeout(resolve,ms));
 
-function play(sound, volume=0.35){
+function play(sound,volume=0.6){
 if(!sound)return;
 sound.pause();
 sound.currentTime=0;
@@ -39,7 +40,20 @@ sound.volume=volume;
 sound.play().catch(()=>{});
 }
 
-function vibrate(ms=35){
+function playMusic(){
+if(!music)return;
+music.volume=0.22;
+music.loop=true;
+music.play().catch(()=>{});
+}
+
+function stopMusic(){
+if(!music)return;
+music.pause();
+music.currentTime=0;
+}
+
+function vibrate(ms=25){
 if(navigator.vibrate){
 navigator.vibrate(ms);
 }
@@ -47,28 +61,37 @@ navigator.vibrate(ms);
 
 function flashEffect(){
 if(!flash)return;
-flash.style.opacity=".65";
-setTimeout(()=>{flash.style.opacity="0";},120);
-}
 
-let lastGlitchSound=0;
+flash.style.opacity=".65";
+
+setTimeout(()=>{
+flash.style.opacity="0";
+},120);
+}
 
 function glitchEffect(){
-const now=Date.now();
+vibrate(25);
 
-if(now-lastGlitchSound>900){
-play(glitchSound,0.22);
-lastGlitchSound=now;
+document.body.classList.add("screenShake");
+
+if(glitch){
+glitch.style.opacity="1";
 }
 
-vibrate(25);
-document.body.classList.add("screenShake");
-if(glitch)glitch.style.opacity="1";
 flashEffect();
+
 setTimeout(()=>{
 document.body.classList.remove("screenShake");
-if(glitch)glitch.style.opacity="0";
+
+if(glitch){
+glitch.style.opacity="0";
+}
+
 },260);
+}
+
+function errorGlitchSound(){
+play(glitchSound,0.5);
 }
 
 const bootLines=[
@@ -83,14 +106,20 @@ const bootLines=[
 
 async function bootAnimation(){
 bootText.innerHTML="";
+
 for(const line of bootLines){
+
 bootText.innerHTML+="<div></div>";
+
 const last=bootText.lastElementChild;
+
 for(let i=0;i<line.length;i++){
 last.innerHTML+=line[i];
 await sleep(26);
 }
+
 await sleep(340);
+
 }
 }
 
@@ -98,11 +127,13 @@ bootAnimation();
 
 async function typeQuestion(text){
 question.innerHTML="";
+
 yes.style.display="none";
 no.style.display="none";
 
 if(typingSound){
 typingSound.currentTime=0;
+typingSound.volume=0.28;
 typingSound.play().catch(()=>{});
 }
 
@@ -117,6 +148,7 @@ typingSound.currentTime=0;
 }
 
 await sleep(250);
+
 yes.style.display="inline-block";
 no.style.display="inline-block";
 }
@@ -124,39 +156,52 @@ no.style.display="inline-block";
 async function showQuestion(){
 counter.innerHTML=`السؤال ${current+1} / ${questions.length}`;
 title.innerHTML=questions[current].title;
+
 await typeQuestion(questions[current].text);
 }
 
 startBtn.onclick=async()=>{
 if(busy)return;
-play(clickSound);
+
+play(clickSound,1);
+playMusic();
 vibrate(15);
+
 busy=true;
+
 glitchEffect();
+
 await sleep(350);
+
 boot.classList.add("hidden");
 questionsScreen.classList.remove("hidden");
+
 await showQuestion();
+
 busy=false;
 };
 
 yes.onclick=()=>{
-play(clickSound);
+play(clickSound,1);
 vibrate(10);
 nextQuestion();
 };
 
 no.onclick=()=>{
-play(clickSound);
+play(clickSound,1);
 vibrate(10);
 nextQuestion();
 };
 
 async function nextQuestion(){
 if(busy)return;
+
 busy=true;
+
 glitchEffect();
+
 await sleep(260);
+
 current++;
 
 if(current<questions.length){
@@ -172,7 +217,14 @@ async function startPunishment(){
 questionsScreen.classList.add("hidden");
 errorScreen.classList.remove("hidden");
 
-play(errorSound);
+stopMusic();
+
+errorGlitchSound();
+
+setTimeout(()=>{
+play(errorSound,0.75);
+},500);
+
 vibrate(120);
 
 errorScreen.querySelector(".terminal").innerHTML=`
@@ -194,11 +246,13 @@ punishmentScreen.classList.remove("hidden");
 
 punishmentScreen.querySelector(".terminal").innerHTML=`
 <h1>بروتوكول العقوبة</h1>
+
 <div class="progress">
 <div class="bar">
 <div id="fill"></div>
 </div>
 </div>
+
 <div class="status">
 <p>جاري حذف الهوية...</p>
 <p>جاري حذف الذكريات...</p>
@@ -220,17 +274,14 @@ punishmentScreen.classList.add("hidden");
 giftScreen.classList.remove("hidden");
 
 busy=false;
+
 showFinalScene();
 }
 
 function showFinalScene(){
-if(music){
-music.volume=.22;
-music.play().catch(()=>{});
-}
-
 giftScreen.querySelector(".terminal").innerHTML=`
 <h1>اكتملت عملية الاندماج</h1>
+
 <p id="finalStatus"></p>
 
 <div id="robotScene">
@@ -277,19 +328,25 @@ const lines=[
 ];
 
 let i=0;
+
 const final=document.getElementById("finalStatus");
 
 const timer=setInterval(()=>{
+
 final.innerHTML=lines[i];
+
 glitchEffect();
+
 i++;
+
 if(i>=lines.length){
 clearInterval(timer);
 }
+
 },1700);
 
 document.getElementById("giftBtn").onclick=()=>{
-play(clickSound);
+play(clickSound,1);
 vibrate(20);
 
 document.body.innerHTML=`
