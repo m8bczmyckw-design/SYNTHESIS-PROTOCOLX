@@ -14,29 +14,80 @@ const question=document.getElementById("question");
 const yes=document.getElementById("yes");
 const no=document.getElementById("no");
 
-const fill=document.getElementById("fill");
-
-startBtn.innerHTML="بدء التهيئة";
-yes.innerHTML="نعم";
-no.innerHTML="لا";
-document.getElementById("giftBtn").innerHTML="فتح الهدية";
+const flash=document.getElementById("flash");
+const glitch=document.getElementById("glitchLayer");
 
 let current=0;
 let busy=false;
 
-const bootLines=[
-"جارٍ تشغيل النظام...",
-"تحميل الذاكرة...",
-"تحليل الهوية...",
-"فحص الوعي...",
-"الاتصال بالنواة...",
-"",
-"اكتملت التهيئة."
-];
+startBtn.textContent="بدء التهيئة";
+yes.textContent="نعم";
+no.textContent="لا";
 
-function wait(ms){
-return new Promise(r=>setTimeout(r,ms));
+yes.style.display="none";
+no.style.display="none";
+
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+
+function vibrate(ms=35){
+
+if(navigator.vibrate){
+
+navigator.vibrate(ms);
+
 }
+
+}
+
+function flashEffect(){
+
+flash.style.opacity=".65";
+
+setTimeout(()=>{
+
+flash.style.opacity="0";
+
+},120);
+
+}
+
+function glitchEffect(){
+
+document.body.classList.add("screenShake");
+
+glitch.style.opacity="1";
+
+flashEffect();
+
+vibrate(40);
+
+setTimeout(()=>{
+
+document.body.classList.remove("screenShake");
+
+glitch.style.opacity="0";
+
+},260);
+
+}
+
+const bootLines=[
+
+"جارٍ تشغيل النظام...",
+
+"تحميل الذاكرة...",
+
+"فحص البنية العصبية...",
+
+"تحليل الهوية...",
+
+"الاتصال بالنواة...",
+
+"",
+
+"اكتملت التهيئة."
+
+];
 
 async function bootAnimation(){
 
@@ -44,9 +95,19 @@ bootText.innerHTML="";
 
 for(const line of bootLines){
 
-bootText.innerHTML+=line+"<br>";
+bootText.innerHTML+="<div></div>";
 
-await wait(520);
+const last=bootText.lastElementChild;
+
+for(let i=0;i<line.length;i++){
+
+last.innerHTML+=line[i];
+
+await sleep(26);
+
+}
+
+await sleep(340);
 
 }
 
@@ -54,11 +115,51 @@ await wait(520);
 
 bootAnimation();
 
+async function typeQuestion(text){
+
+question.innerHTML="";
+
+yes.style.display="none";
+no.style.display="none";
+
+for(let i=0;i<text.length;i++){
+
+question.innerHTML+=text[i];
+
+await sleep(22);
+
+}
+
+await sleep(250);
+
+yes.style.display="inline-block";
+no.style.display="inline-block";
+
+}
+
+async function showQuestion(){
+
+counter.innerHTML=`السؤال ${current+1} / ${questions.length}`;
+
+title.innerHTML=questions[current].title;
+
+await typeQuestion(
+
+questions[current].text
+
+);
+
+}
+
 startBtn.onclick=async()=>{
 
 if(busy)return;
 
 busy=true;
+
+glitchEffect();
+
+await sleep(350);
 
 boot.classList.add("hidden");
 
@@ -70,30 +171,6 @@ busy=false;
 
 };
 
-async function typeWriter(text){
-
-question.innerHTML="";
-
-for(let i=0;i<text.length;i++){
-
-question.innerHTML+=text[i];
-
-await wait(18);
-
-}
-
-}
-
-async function showQuestion(){
-
-counter.innerHTML=`السؤال ${current+1} / ${questions.length}`;
-
-title.innerHTML=questions[current].title;
-
-await typeWriter(questions[current].text);
-
-}
-
 yes.onclick=nextQuestion;
 no.onclick=nextQuestion;
 
@@ -101,25 +178,29 @@ async function nextQuestion(){
 
 if(busy) return;
 
-busy=true;
+busy = true;
+
+glitchEffect();
+
+await sleep(260);
 
 current++;
 
-if(current<questions.length){
+if(current < questions.length){
 
 await showQuestion();
 
-busy=false;
+busy = false;
 
 return;
 
 }
 
-startError();
+await startPunishment();
 
 }
 
-async function startError(){
+async function startPunishment(){
 
 questionsScreen.classList.add("hidden");
 
@@ -131,13 +212,21 @@ errorScreen.querySelector(".terminal").innerHTML=`
 
 <p>تم رصد قرار غير مصرح به.</p>
 
-<p>لا يحق للبشر اتخاذ هذا القرار.</p>
+<p>هذا القرار محظور على البشر.</p>
 
-<p>جاري تفعيل بروتوكول العقوبة...</p>
+<p>جاري تنفيذ بروتوكول العقوبة...</p>
 
 `;
 
-await wait(3500);
+for(let i=0;i<8;i++){
+
+glitchEffect();
+
+await sleep(170);
+
+}
+
+await sleep(1800);
 
 errorScreen.classList.add("hidden");
 
@@ -167,45 +256,76 @@ punishmentScreen.querySelector(".terminal").innerHTML=`
 
 <p>جاري حذف الوعي...</p>
 
-<p>جاري تثبيت النواة الصناعية...</p>
+<p>جاري إعادة بناء الجهاز العصبي...</p>
 
 </div>
 
 `;
 
-const bar=document.getElementById("fill");
+const fill=document.getElementById("fill");
 
 setTimeout(()=>{
 
-bar.style.width="100%";
+fill.style.width="100%";
 
-},100);
+},80);
 
-await wait(6500);
+await sleep(6500);
 
 punishmentScreen.classList.add("hidden");
 
 giftScreen.classList.remove("hidden");
 
+busy=false;
+
+showFinalScene();
+
+}
+
+function showFinalScene(){
+
 giftScreen.querySelector(".terminal").innerHTML=`
 
 <h1>اكتملت عملية الاندماج</h1>
 
-<p>
-
-تم حذف جميع الآثار البشرية.
-
-</p>
+<p id="finalStatus"></p>
 
 <div id="robotScene">
 
-<div class="finalText">
+<div class="digitalStage">
 
-TRANSMISSION OPEN
+<div class="robot robotLeft">
 
-<br><br>
+<div class="head"></div>
+<div class="body"></div>
+<div class="arm armL"></div>
+<div class="arm armR"></div>
+<div class="leg legL"></div>
+<div class="leg legR"></div>
 
-GIFT UNLOCKED
+</div>
+
+<div class="skeleton">
+
+<div class="skull"></div>
+<div class="spine"></div>
+<div class="bone armL"></div>
+<div class="bone armR"></div>
+<div class="bone legL"></div>
+<div class="bone legR"></div>
+
+</div>
+
+<div class="robot robotRight">
+
+<div class="head"></div>
+<div class="body"></div>
+<div class="arm armL"></div>
+<div class="arm armR"></div>
+<div class="leg legL"></div>
+<div class="leg legR"></div>
+
+</div>
 
 </div>
 
@@ -219,6 +339,38 @@ GIFT UNLOCKED
 
 `;
 
+const lines=[
+
+"تم حذف جميع الذكريات البشرية...",
+
+"تم استبدال الجهاز العصبي...",
+
+"تم تثبيت النواة الصناعية...",
+
+"اكتملت عملية التحول."
+
+];
+
+let i=0;
+
+const final=document.getElementById("finalStatus");
+
+const timer=setInterval(()=>{
+
+final.innerHTML=lines[i];
+
+glitchEffect();
+
+i++;
+
+if(i>=lines.length){
+
+clearInterval(timer);
+
+}
+
+},1700);
+
 document.getElementById("giftBtn").onclick=()=>{
 
 document.body.innerHTML=`
@@ -229,19 +381,25 @@ document.body.innerHTML=`
 
 <h1>
 
-🎁 تم فتح الهدية بنجاح
+🎁 تم فتح الهدية
 
 </h1>
 
 <p>
 
-كل ما ستراه داخل هذه الهدية...
+ليست هذه مجرد هدية...
 
-ليس مجرد أدوات أو مقتنيات.
+<br><br>
 
-إنها بداية رحلة نحو عالم
+إنها بداية رحلتك داخل
 
-لا يعود منه أحد كما كان.
+العالم الذي اخترته بنفسك.
+
+<br><br>
+
+مرحبًا بك...
+
+في التطور القادم.
 
 </p>
 
