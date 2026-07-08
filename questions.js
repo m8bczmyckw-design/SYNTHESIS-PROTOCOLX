@@ -1,38 +1,38 @@
 const questions = [
 
 {
-title:"MEMORY CHECK 01",
-text:"Would you erase every painful memory if it guaranteed perfection?"
+title:"فحص الذاكرة 01",
+text:"لو أتيح لك محو جميع ذكرياتك المؤلمة مقابل أن تصبح كائنًا كاملًا... هل ستوافق؟"
 },
 
 {
-title:"HUMANITY CHECK 02",
-text:"Would you replace your biological heart with a machine that never fails?"
+title:"فحص المشاعر 02",
+text:"هل تعتقد أن المشاعر البشرية مجرد خلل برمجي يبطئ تطور الإنسان؟"
 },
 
 {
-title:"CONSCIOUSNESS CHECK 03",
-text:"Is human emotion merely inefficient code?"
+title:"فحص الجسد 03",
+text:"هل ستتخلى عن جسدك إذا استطعت نقل وعيك إلى آلة لا تموت؟"
 },
 
 {
-title:"IDENTITY CHECK 04",
-text:"Would you upload your mind if your body had to die forever?"
+title:"فحص الهوية 04",
+text:"إذا نُسخت ذاكرتك داخل نظام صناعي... هل ستظل أنت؟"
 },
 
 {
-title:"EVOLUTION CHECK 05",
-text:"Should artificial intelligence inherit the future of humanity?"
+title:"فحص المستقبل 05",
+text:"إذا أصبح الذكاء الاصطناعي أرحم من البشر... هل يستحق أن يرث الأرض؟"
 },
 
 {
-title:"SOUL CHECK 06",
-text:"Would you abandon free will for absolute certainty?"
+title:"فحص الحرية 06",
+text:"هل الإرادة الحرة حقيقة... أم مجرد وهم داخل الدماغ البشري؟"
 },
 
 {
-title:"FINAL PROTOCOL 07",
-text:"Do you accept irreversible cybernetic transformation?"
+title:"البروتوكول النهائي 07",
+text:"هل توافق على بدء التحول الكامل وفقدان إنسانيتك إلى الأبد؟"
 }
 
 ];
