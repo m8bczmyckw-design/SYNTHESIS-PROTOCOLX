@@ -1360,3 +1360,303 @@ height:60px;
 }
 
 }
+/* ========================= */
+/* CINEMATIC POLISH */
+/* ========================= */
+
+section{
+animation:sceneFade .65s ease both;
+}
+
+@keyframes sceneFade{
+0%{
+opacity:0;
+filter:blur(8px) brightness(.6);
+transform:scale(1.03);
+}
+100%{
+opacity:1;
+filter:blur(0) brightness(1);
+transform:scale(1);
+}
+}
+
+.terminal{
+animation:
+terminalBreath 3.8s ease-in-out infinite,
+terminalReveal .65s ease both;
+}
+
+@keyframes terminalReveal{
+0%{
+opacity:0;
+transform:translateY(18px) scale(.98);
+filter:blur(6px);
+}
+100%{
+opacity:1;
+transform:translateY(0) scale(1);
+filter:blur(0);
+}
+}
+
+@keyframes terminalBreath{
+0%,100%{
+box-shadow:
+0 0 8px #39ff14,
+0 0 30px rgba(57,255,20,.18),
+0 0 80px rgba(57,255,20,.08),
+inset 0 0 40px rgba(57,255,20,.08);
+}
+50%{
+box-shadow:
+0 0 14px #39ff14,
+0 0 48px rgba(57,255,20,.28),
+0 0 120px rgba(57,255,20,.14),
+inset 0 0 55px rgba(57,255,20,.14);
+}
+}
+
+.logo,
+h1,
+h2{
+position:relative;
+}
+
+.logo::before,
+h1::before,
+h2::before{
+content:attr(data-text);
+position:absolute;
+inset:0;
+color:#9cff91;
+opacity:.28;
+transform:translate(2px,-1px);
+filter:blur(.5px);
+pointer-events:none;
+}
+
+#question{
+min-height:95px;
+text-shadow:
+0 0 6px rgba(57,255,20,.65),
+0 0 18px rgba(57,255,20,.25);
+}
+
+button{
+position:relative;
+overflow:hidden;
+}
+
+button::before{
+content:"";
+position:absolute;
+top:0;
+right:-120%;
+width:120%;
+height:100%;
+background:linear-gradient(
+90deg,
+transparent,
+rgba(57,255,20,.35),
+transparent
+);
+transition:.45s;
+}
+
+button:hover::before,
+button:active::before{
+right:120%;
+}
+
+button:active{
+filter:brightness(1.8);
+}
+
+#error .terminal{
+border-color:#b9ffb0;
+animation:
+criticalPulse .22s infinite,
+glitch .08s infinite;
+}
+
+@keyframes criticalPulse{
+0%,100%{
+filter:brightness(1);
+}
+50%{
+filter:brightness(1.8);
+}
+}
+
+#error h1{
+font-size:clamp(34px,8vw,66px);
+letter-spacing:7px;
+}
+
+#error p{
+font-size:clamp(17px,4vw,23px);
+}
+
+#punishment .terminal{
+background:
+linear-gradient(rgba(0,0,0,.82),rgba(0,0,0,.92)),
+repeating-linear-gradient(
+0deg,
+rgba(57,255,20,.06) 0px,
+rgba(57,255,20,.06) 1px,
+transparent 1px,
+transparent 9px
+);
+}
+
+.status p{
+opacity:0;
+animation:statusReveal .55s ease forwards;
+}
+
+.status p:nth-child(1){animation-delay:.2s;}
+.status p:nth-child(2){animation-delay:.7s;}
+.status p:nth-child(3){animation-delay:1.2s;}
+.status p:nth-child(4){animation-delay:1.7s;}
+.status p:nth-child(5){animation-delay:2.2s;}
+
+@keyframes statusReveal{
+0%{
+opacity:0;
+transform:translateX(18px);
+filter:blur(5px);
+}
+100%{
+opacity:1;
+transform:translateX(0);
+filter:blur(0);
+}
+}
+
+#robotScene{
+height:360px;
+border:1px solid rgba(57,255,20,.75);
+box-shadow:
+inset 0 0 60px rgba(57,255,20,.12),
+0 0 35px rgba(57,255,20,.18);
+}
+
+.digitalStage{
+perspective:600px;
+}
+
+.digitalStage::after{
+content:"";
+position:absolute;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at 50% 55%,rgba(57,255,20,.22),transparent 26%),
+linear-gradient(90deg,transparent,rgba(57,255,20,.08),transparent);
+mix-blend-mode:screen;
+animation:stageEnergy 1.8s infinite alternate;
+}
+
+@keyframes stageEnergy{
+from{
+opacity:.25;
+transform:scale(.98);
+}
+to{
+opacity:.8;
+transform:scale(1.04);
+}
+}
+
+.robot,
+.skeleton{
+transform-origin:bottom center;
+animation:
+cinemaDance .62s infinite alternate ease-in-out,
+flickerRobot 1.4s infinite;
+}
+
+.robotLeft{
+animation-delay:.12s;
+}
+
+.robotRight{
+animation-delay:.28s;
+}
+
+@keyframes cinemaDance{
+0%{
+transform:translateY(0) rotate(-4deg) skewX(-2deg);
+}
+100%{
+transform:translateY(-18px) rotate(4deg) skewX(2deg);
+}
+}
+
+.skeleton{
+animation:
+skeletonLead .52s infinite alternate ease-in-out,
+flickerRobot 1.2s infinite;
+}
+
+@keyframes skeletonLead{
+0%{
+transform:translateY(-4px) rotate(5deg) scale(1.02);
+}
+100%{
+transform:translateY(-22px) rotate(-5deg) scale(1.08);
+}
+}
+
+.finalText{
+font-size:20px;
+background:rgba(0,0,0,.55);
+padding:4px 12px;
+border:1px solid rgba(57,255,20,.35);
+}
+
+.giftMessage{
+animation:giftReveal .9s ease both;
+}
+
+@keyframes giftReveal{
+0%{
+opacity:0;
+filter:blur(12px);
+}
+100%{
+opacity:1;
+filter:blur(0);
+}
+}
+
+.giftMessage div{
+animation:giftBox .9s ease both;
+}
+
+@keyframes giftBox{
+0%{
+transform:scale(.92);
+opacity:0;
+}
+100%{
+transform:scale(1);
+opacity:1;
+}
+}
+
+@media(max-width:700px){
+#robotScene{
+height:300px;
+}
+
+#question{
+min-height:125px;
+}
+
+.finalText{
+font-size:15px;
+letter-spacing:2px;
+}
+}
