@@ -279,61 +279,40 @@ showFinalScene();
 }
 
 function showFinalScene(){
+
 giftScreen.querySelector(".terminal").innerHTML=`
-<h1>اكتملت عملية الاندماج</h1>
+<div class="cinematicFinal">
 
-<p id="finalStatus"></p>
+<div class="finalHeader">اكتملت عملية الاندماج</div>
 
-<div id="robotScene">
-<div class="digitalStage">
+<div class="finalSequence" id="finalStatus"></div>
 
-<div class="robot robotLeft">
-<div class="head"></div>
-<div class="body"></div>
-<div class="arm armL"></div>
-<div class="arm armR"></div>
-<div class="leg legL"></div>
-<div class="leg legR"></div>
+<div class="finalCore">
+<div class="coreRing"></div>
+<div class="coreText">NEURAL CORE</div>
 </div>
 
-<div class="skeleton">
-<div class="skull"></div>
-<div class="spine"></div>
-<div class="bone armL"></div>
-<div class="bone armR"></div>
-<div class="bone legL"></div>
-<div class="bone legR"></div>
-</div>
-
-<div class="robot robotRight">
-<div class="head"></div>
-<div class="body"></div>
-<div class="arm armL"></div>
-<div class="arm armR"></div>
-<div class="leg legL"></div>
-<div class="leg legR"></div>
-</div>
+<button id="giftBtn" class="hiddenFinalBtn">فتح الهدية</button>
 
 </div>
-</div>
-
-<button id="giftBtn">فتح الهدية</button>
 `;
 
 const lines=[
-"تم حذف جميع الذكريات البشرية...",
-"تم استبدال الجهاز العصبي...",
-"تم تثبيت النواة الصناعية...",
-"اكتملت عملية التحول."
+"تم حذف الذاكرة البشرية...",
+"تم تعطيل المشاعر...",
+"تم فصل الوعي عن الجسد...",
+"تم استبدال الهوية بنواة صناعية...",
+"النظام لم يعد يتعرّف عليك كإنسان.",
+"تم فتح الهدية بنجاح."
 ];
 
 let i=0;
-
 const final=document.getElementById("finalStatus");
+const giftBtn=document.getElementById("giftBtn");
 
 const timer=setInterval(()=>{
 
-final.innerHTML=lines[i];
+final.innerHTML+=`<p>${lines[i]}</p>`;
 
 glitchEffect();
 
@@ -341,27 +320,38 @@ i++;
 
 if(i>=lines.length){
 clearInterval(timer);
+
+setTimeout(()=>{
+giftBtn.classList.remove("hiddenFinalBtn");
+giftBtn.classList.add("showFinalBtn");
+},1200);
+
 }
 
 },1700);
 
-document.getElementById("giftBtn").onclick=()=>{
+giftBtn.onclick=()=>{
 play(clickSound,1);
 vibrate(20);
 
 document.body.innerHTML=`
-<div class="giftMessage">
+<div class="giftMessage cinematicGift">
 <div>
 <h1>🎁 تم فتح الهدية</h1>
 <p>
-ليست هذه مجرد هدية...
+ليست هذه مجرد هدية.
 <br><br>
-إنها بداية رحلتك داخل العالم الذي اخترته بنفسك.
+إنها بقايا من مستقبلٍ مظلم...
+<br>
+ومن إنسانٍ اختار التطور
+<br>
+على حساب إنسانيته.
 <br><br>
-مرحبًا بك... في التطور القادم.
+مرحبًا بك في المرحلة التالية.
 </p>
 </div>
 </div>
 `;
 };
+
 }
