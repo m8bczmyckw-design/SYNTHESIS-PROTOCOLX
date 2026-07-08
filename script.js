@@ -16,28 +16,34 @@ const no = document.getElementById("no");
 
 const fill = document.getElementById("fill");
 
-let current = 0;
+startBtn.innerHTML="بدء التهيئة";
+yes.innerHTML="نعم";
+no.innerHTML="لا";
+document.getElementById("giftBtn").innerHTML="فتح الهدية";
 
-const bootLines = [
-"Booting Neural Interface...",
-"Loading Memory...",
-"Scanning Human Consciousness...",
-"Connecting To SYNTHESIS PROTOCOL...",
+let current=0;
+
+const bootLines=[
+"جارٍ تشغيل النظام...",
+"تحميل الذاكرة...",
+"تحليل الهوية...",
+"فحص الوعي...",
+"الاتصال بالنواة...",
 "",
-"READY"
+"اكتملت التهيئة."
 ];
 
-let line = 0;
+let line=0;
 
 function typeBoot(){
 
-if(line>=bootLines.length) return;
+if(line>=bootLines.length)return;
 
-bootText.innerHTML += bootLines[line] + "<br>";
+bootText.innerHTML+=bootLines[line]+"<br>";
 
 line++;
 
-setTimeout(typeBoot,500);
+setTimeout(typeBoot,550);
 
 }
 
@@ -55,7 +61,7 @@ showQuestion();
 
 function showQuestion(){
 
-counter.innerHTML=`QUESTION ${current+1} / ${questions.length}`;
+counter.innerHTML=`السؤال ${current+1} / ${questions.length}`;
 
 title.innerHTML=questions[current].title;
 
@@ -80,7 +86,6 @@ showQuestion();
 }
 
 yes.onclick=nextQuestion;
-
 no.onclick=nextQuestion;
 
 function startError(){
@@ -88,6 +93,14 @@ function startError(){
 questionsScreen.classList.add("hidden");
 
 errorScreen.classList.remove("hidden");
+
+errorScreen.querySelector("h1").innerHTML="خطأ حرج";
+
+errorScreen.querySelectorAll("p")[0].innerHTML="تم رصد قرار غير مصرح به";
+
+errorScreen.querySelectorAll("p")[1].innerHTML="لا يحق للبشر اتخاذ هذا القرار.";
+
+errorScreen.querySelectorAll("p")[2].innerHTML="جاري تفعيل بروتوكول العقوبة...";
 
 setTimeout(()=>{
 
@@ -111,6 +124,12 @@ giftScreen.classList.remove("hidden");
 
 document.getElementById("giftBtn").onclick=()=>{
 
-alert("🎁 Gift Unlocked\n\nWelcome to the next evolution.");
+alert(`
+
+تم فتح الهدية بنجاح
+
+مرحبًا بك في التطور القادم.
+
+`);
 
 };
