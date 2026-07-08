@@ -6,130 +6,171 @@ const giftScreen = document.getElementById("gift");
 
 const bootText = document.getElementById("bootText");
 const startBtn = document.getElementById("start");
-
 const counter = document.getElementById("counter");
 const title = document.getElementById("title");
 const question = document.getElementById("question");
-
 const yes = document.getElementById("yes");
 const no = document.getElementById("no");
-
 const fill = document.getElementById("fill");
+const flash = document.getElementById("flash");
+const glitchLayer = document.getElementById("glitchLayer");
 
-startBtn.innerHTML="بدء التهيئة";
-yes.innerHTML="نعم";
-no.innerHTML="لا";
-document.getElementById("giftBtn").innerHTML="فتح الهدية";
+startBtn.innerHTML = "بدء التهيئة";
+yes.innerHTML = "نعم";
+no.innerHTML = "لا";
+document.getElementById("giftBtn").innerHTML = "فتح الهدية";
 
-let current=0;
+let current = 0;
+let locked = false;
 
-const bootLines=[
+const bootLines = [
 "جارٍ تشغيل النظام...",
 "تحميل الذاكرة...",
+"فحص البنية العصبية...",
 "تحليل الهوية...",
-"فحص الوعي...",
 "الاتصال بالنواة...",
+"فتح القناة السوداء...",
 "",
 "اكتملت التهيئة."
 ];
 
-let line=0;
+function sleep(ms){
+return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-function typeBoot(){
+async function typeText(element, text, speed = 45){
+element.innerHTML = "";
+for(let i = 0; i < text.length; i++){
+element.innerHTML += text[i];
+await sleep(speed);
+}
+}
 
-if(line>=bootLines.length)return;
-
-bootText.innerHTML+=bootLines[line]+"<br>";
-
-line++;
-
-setTimeout(typeBoot,550);
-
+async function typeBoot(){
+bootText.innerHTML = "";
+for(const line of bootLines){
+bootText.innerHTML += line + "<br>";
+await sleep(520);
+}
 }
 
 typeBoot();
 
-startBtn.onclick=()=>{
+function flashScreen(){
+flash.style.opacity = "0.55";
+setTimeout(()=>{ flash.style.opacity = "0"; },120);
+}
 
+function glitchPulse(){
+glitchLayer.style.opacity = "1";
+document.body.classList.add("screenShake");
+flashScreen();
+setTimeout(()=>{
+glitchLayer.style.opacity = "0";
+document.body.classList.remove("screenShake");
+},420);
+}
+
+startBtn.onclick = async () => {
+if(locked) return;
+locked = true;
+glitchPulse();
+await sleep(450);
 boot.classList.add("hidden");
-
 questionsScreen.classList.remove("hidden");
-
+locked = false;
 showQuestion();
-
 };
 
-function showQuestion(){
-
-counter.innerHTML=`السؤال ${current+1} / ${questions.length}`;
-
-title.innerHTML=questions[current].title;
-
-question.innerHTML=questions[current].text;
-
+async function showQuestion(){
+counter.innerHTML = `السؤال ${current + 1} / ${questions.length}`;
+title.innerHTML = questions[current].title;
+await typeText(question, questions[current].text, 38);
 }
 
-function nextQuestion(){
-
+async function nextQuestion(){
+if(locked) return;
+locked = true;
+glitchPulse();
+await sleep(520);
 current++;
 
-if(current>=questions.length){
-
+if(current >= questions.length){
 startError();
-
 return;
-
 }
 
-showQuestion();
-
+await showQuestion();
+locked = false;
 }
 
-yes.onclick=nextQuestion;
-no.onclick=nextQuestion;
+yes.onclick = nextQuestion;
+no.onclick = nextQuestion;
 
-function startError(){
-
+async function startError(){
 questionsScreen.classList.add("hidden");
-
 errorScreen.classList.remove("hidden");
 
-errorScreen.querySelector("h1").innerHTML="خطأ حرج";
+errorScreen.querySelector("h1").innerHTML = "خطأ حرج";
+const errorLines = errorScreen.querySelectorAll("p");
 
-errorScreen.querySelectorAll("p")[0].innerHTML="تم رصد قرار غير مصرح به";
+errorLines[0].innerHTML = "تم رصد قرار غير مصرح به";
+errorLines[1].innerHTML = "لا يحق للبشر اتخاذ هذا القرار.";
+errorLines[2].innerHTML = "جاري تفعيل بروتوكول العقوبة...";
 
-errorScreen.querySelectorAll("p")[1].innerHTML="لا يحق للبشر اتخاذ هذا القرار.";
-
-errorScreen.querySelectorAll("p")[2].innerHTML="جاري تفعيل بروتوكول العقوبة...";
-
-setTimeout(()=>{
-
-errorScreen.classList.add("hidden");
-
-punishmentScreen.classList.remove("hidden");
-
-fill.style.width="100%";
-
-},3500);
-
-setTimeout(()=>{
-
-punishmentScreen.classList.add("hidden");
-
-giftScreen.classList.remove("hidden");
-
-},10500);
-
+for(let i = 0; i < 8; i++){
+glitchPulse();
+await sleep(300);
 }
 
-document.getElementById("giftBtn").onclick=()=>{
+await sleep(900);
 
-alert(`
+errorScreen.classList.add("hidden");
+punishmentScreen.classList.remove("hidden");
 
-تم فتح الهدية بنجاح
+punishmentScreen.querySelector("h1").innerHTML = "بروتوكول العقوبة";
 
+const status = punishmentScreen.querySelector(".status");
+status.innerHTML = `
+<p>جاري حذف الهوية...</p>
+<p>جاري حذف الذكريات...</p>
+<p>جاري حذف المشاعر...</p>
+<p>جاري إزالة الوعي...</p>
+<p>جاري تثبيت النواة الصناعية...</p>
+`;
+
+fill.style.width = "100%";
+
+await sleep(7000);
+
+glitchPulse();
+await sleep(650);
+
+punishmentScreen.classList.add("hidden");
+giftScreen.classList.remove("hidden");
+
+giftScreen.querySelector("h1").innerHTML = "اكتملت عملية الاندماج";
+giftScreen.querySelector("p").innerHTML = `
+لم تعد كما كنت.<br>
+تم فتح الهدية بنجاح.<br>
 مرحبًا بك في التطور القادم.
+`;
 
-`);
+document.getElementById("robotScene").innerHTML = `
+<div class="finalText">
+TRANSMISSION OPEN<br>
+GIFT UNLOCKED
+</div>
+`;
+}
 
+document.getElementById("giftBtn").onclick = () => {
+document.body.innerHTML += `
+<div class="giftMessage">
+<div>
+<h1>تم فتح الهدية بنجاح</h1>
+<p>ما بداخلها ليس مجرد هدية... بل أثر من مستقبل مظلم.</p>
+</div>
+</div>
+`;
 };
