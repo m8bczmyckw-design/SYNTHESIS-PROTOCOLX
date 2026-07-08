@@ -112,12 +112,12 @@ questionsScreen.classList.add("hidden");
 errorScreen.classList.remove("hidden");
 
 errorScreen.querySelector("h1").innerHTML = "خطأ حرج";
-const errorLines = errorScreen.querySelectorAll("p");
-
-errorLines[0].innerHTML = "تم رصد قرار غير مصرح به";
-errorLines[1].innerHTML = "لا يحق للبشر اتخاذ هذا القرار.";
-errorLines[2].innerHTML = "جاري تفعيل بروتوكول العقوبة...";
-
+errorScreen.querySelector(".terminal").innerHTML = `
+<h1>خطأ حرج</h1>
+<p>تم رصد قرار غير مصرح به</p>
+<p>لا يحق للبشر اتخاذ هذا القرار.</p>
+<p>جاري تفعيل بروتوكول العقوبة...</p>
+`;
 for(let i = 0; i < 8; i++){
 glitchPulse();
 await sleep(300);
