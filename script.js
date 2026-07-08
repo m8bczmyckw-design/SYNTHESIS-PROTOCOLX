@@ -31,9 +31,11 @@ no.style.display="none";
 
 const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
 
-function play(sound){
+function play(sound, volume=0.35){
 if(!sound)return;
+sound.pause();
 sound.currentTime=0;
+sound.volume=volume;
 sound.play().catch(()=>{});
 }
 
@@ -49,9 +51,17 @@ flash.style.opacity=".65";
 setTimeout(()=>{flash.style.opacity="0";},120);
 }
 
+let lastGlitchSound=0;
+
 function glitchEffect(){
-play(glitchSound);
-vibrate(40);
+const now=Date.now();
+
+if(now-lastGlitchSound>900){
+play(glitchSound,0.22);
+lastGlitchSound=now;
+}
+
+vibrate(25);
 document.body.classList.add("screenShake");
 if(glitch)glitch.style.opacity="1";
 flashEffect();
@@ -215,7 +225,7 @@ showFinalScene();
 
 function showFinalScene(){
 if(music){
-music.volume=.35;
+music.volume=.22;
 music.play().catch(()=>{});
 }
 
